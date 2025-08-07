@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Phishing URL Analyzer</title>
+</head>
+<body>
+    <h1>🎣 Phishing URL Analyzer</h1>
+    <form method="post">
+        {% csrf_token %}
+        <input type="text" name="url" placeholder="Вставьте ссылку" required>
+        <button type="submit">Анализировать</button>
+    </form>
+
+    {% if result %}
+    <h3>Результаты:</h3>
+    <ul>
+        <li><strong>Домен:</strong> {{ result.domain }}</li>
+        <li><strong>Punycode:</strong> {{ result.punycode }}</li>
+        <li><strong>Похож на бренд:</strong> {{ result.suspicious }}</li>
+        {% if result.suspicious %}
+        <li><strong>Похож на:</strong> {{ result.brand }} ({{ result.similarity }}%)</li>
+        {% endif %}
+    </ul>
+    {% endif %}
+</body>
+</html>
