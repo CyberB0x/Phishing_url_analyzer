@@ -1,27 +1,50 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <title>Phishing URL Analyzer</title>
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-    <h1>🎣 Phishing URL Analyzer</h1>
-    <form method="post">
-        {% csrf_token %}
-        <input type="text" name="url" placeholder="Вставьте ссылку" required>
-        <button type="submit">Анализировать</button>
-    </form>
+<body class="bg-light">
 
-    {% if result %}
-    <h3>Результаты:</h3>
-    <ul>
-        <li><strong>Домен:</strong> {{ result.domain }}</li>
-        <li><strong>Punycode:</strong> {{ result.punycode }}</li>
-        <li><strong>Похож на бренд:</strong> {{ result.suspicious }}</li>
-        {% if result.suspicious %}
-        <li><strong>Похож на:</strong> {{ result.brand }} ({{ result.similarity }}%)</li>
-        {% endif %}
-    </ul>
-    {% endif %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-lg border-0">
+                <div class="card-body">
+                    <h1 class="text-center mb-4">🎣 Phishing URL Analyzer</h1>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <input type="text" name="url" class="form-control form-control-lg" placeholder="Вставьте ссылку для анализа" required>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg">Анализировать</button>
+                        </div>
+                    </form>
+
+                    {% if result %}
+                    <div class="mt-4">
+                        <h4 class="mb-3">🔍 Результаты анализа</h4>
+                        <ul class="list-group">
+                            <li class="list-group-item"><strong>Домен:</strong> {{ result.domain }}</li>
+                            <li class="list-group-item"><strong>Punycode:</strong> {{ result.punycode|yesno:"Да,Нет" }}</li>
+                            <li class="list-group-item"><strong>Похож на бренд:</strong> {{ result.suspicious|yesno:"Да,Нет" }}</li>
+                            {% if result.suspicious %}
+                            <li class="list-group-item text-danger"><strong>Похож на:</strong> {{ result.brand }} ({{ result.similarity }}%)</li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS (опционально, если нужны dropdown и т.п.) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>
