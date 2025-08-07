@@ -1,10 +1,14 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Phishing URL Analyzer</title>
+
     <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 <body class="bg-light">
 
@@ -13,37 +17,51 @@
         <div class="col-md-8 col-lg-6">
             <div class="card shadow-lg border-0">
                 <div class="card-body">
-                    <h1 class="text-center mb-4">🎣 Phishing URL Analyzer</h1>
+                    <h1 class="text-center mb-4">
+                        <i class="fas fa-shield-alt text-primary"></i> Phishing URL Analyzer
+                    </h1>
+
                     <form method="post">
                         {% csrf_token %}
                         <div class="mb-3">
-                            <input type="text" name="url" class="form-control form-control-lg" placeholder="Вставьте ссылку для анализа" required>
+                            <input type="text" name="url" class="form-control form-control-lg" placeholder="Enter a URL to analyze" required>
                         </div>
                         <div class="d-grid">
-                            <button type="submit" class="btn btn-primary btn-lg">Анализировать</button>
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-search"></i> Analyze
+                            </button>
                         </div>
                     </form>
 
                     {% if result %}
                     <div class="mt-4">
-                        <h4 class="mb-3">🔍 Результаты анализа</h4>
+                        <h4 class="mb-3"><i class="fas fa-chart-line text-success"></i> Analysis Results</h4>
                         <ul class="list-group">
-                            <li class="list-group-item"><strong>Домен:</strong> {{ result.domain }}</li>
-                            <li class="list-group-item"><strong>Punycode:</strong> {{ result.punycode|yesno:"Да,Нет" }}</li>
-                            <li class="list-group-item"><strong>Похож на бренд:</strong> {{ result.suspicious|yesno:"Да,Нет" }}</li>
+                            <li class="list-group-item"><strong><i class="fas fa-globe"></i> Domain:</strong> {{ result.domain }}</li>
+                            <li class="list-group-item"><strong><i class="fas fa-code"></i> Punycode:</strong> {{ result.punycode|yesno:"Yes,No" }}</li>
+                            <li class="list-group-item"><strong><i class="fas fa-clone"></i> Similar to known brand:</strong> {{ result.suspicious|yesno:"Yes,No" }}</li>
                             {% if result.suspicious %}
-                            <li class="list-group-item text-danger"><strong>Похож на:</strong> {{ result.brand }} ({{ result.similarity }}%)</li>
+                            <li class="list-group-item text-danger">
+                                <strong><i class="fas fa-exclamation-triangle"></i> Most similar to:</strong> {{ result.brand }} ({{ result.similarity }}%)
+                            </li>
                             {% endif %}
                         </ul>
                     </div>
                     {% endif %}
+
+                    <div class="text-center mt-5 small text-muted">
+                        <i class="fas fa-code"></i> Created by
+                        <a href="https://github.com/CyberB0x" target="_blank" class="text-decoration-none fw-bold">
+                            Arslonbek Erkinov
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Bootstrap JS (опционально, если нужны dropdown и т.п.) -->
+<!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
